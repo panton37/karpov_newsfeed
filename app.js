@@ -268,10 +268,10 @@ const data = {
   ],
 };
 
-const mainNews = data.items.slice(0, 3);
-const smallNews = data.items.slice(4, 13);
-
-console.log(smallNews);
+const mainNews = data.items.slice(1, 4);
+const smallNews = data.items.slice(5, 14);
+const categories = data.categories;
+const sources = data.sources;
 
 const mainNewsTemplate = document.getElementById('main-news-item');
 const smallNewsTemplate = document.getElementById('small-news-item');
@@ -281,10 +281,36 @@ const smallNewsContainer = document.querySelector('.articles__small-column');
 
 mainNews.forEach((item) => {
   const mainNewsElement = mainNewsTemplate.content.cloneNode(true);
+
+  mainNewsElement.querySelector('.main-article__image').src = item.image;
+  mainNewsElement.querySelector('.main-article__title').textContent =
+    item.title;
+  mainNewsElement.querySelector('.main-article__text').textContent =
+    item.description;
+
+  mainNewsElement.querySelector('.main-article__source').textContent =
+    sources.find((src) => src.id === item.source_id).name;
+
+  mainNewsElement.querySelector('.main-article__category').textContent =
+    categories.find((cat) => cat.id === item.category_id).name;
+
   mainNewsContainer.appendChild(mainNewsElement);
 });
 
 smallNews.forEach((item) => {
   const smallNewsElement = smallNewsTemplate.content.cloneNode(true);
+
+  const date = new Date(item.date).toLocaleDateString('ru-ru', {
+    day: 'numeric',
+    month: 'long',
+  });
+
+  smallNewsElement.querySelector('.small-article__title').textContent =
+    item.title;
+  smallNewsElement.querySelector('.small-article__date').textContent = date;
+
+  smallNewsElement.querySelector('.small-article__source').textContent =
+    sources.find((src) => src.id === item.source_id).name;
+
   smallNewsContainer.appendChild(smallNewsElement);
 });
