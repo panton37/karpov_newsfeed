@@ -279,31 +279,6 @@ const smallNewsTemplate = document.getElementById('small-news-item');
 const mainNewsContainer = document.querySelector('.articles__big-column');
 const smallNewsContainer = document.querySelector('.articles__small-column');
 
-{
-  /* <article class="main-article">
-        <div class="main-article__image-container">
-          <img
-            class="main-article__image"
-            src="./images/image.jpg"
-            alt="Фото новости"
-          />
-        </div>
-        <div class="main-article__content">
-          <span class="article-category main-article__category"
-            >Технологии</span
-          >
-          <h2 class="main-article__title">
-            Вещи, которые нужно знать перед стажировкой в IT сфере
-          </h2>
-          <p class="main-article__text">
-            Уличные музыканты продолжают радовать фанатов стрит арта. Для этого
-            они исполняют привычные мелодии в новом формате!
-          </p>
-          <span class="article-source main-article__source">Источник</span>
-        </div>
-      </article> */
-}
-
 const createMainNewsItem = (item) => {
   const catName = categories.find((cat) => cat.id === item.category_id).name;
   const srcName = sources.find((src) => src.id === item.source_id).name;
@@ -349,19 +324,25 @@ mainNews.forEach((item) => {
 });
 
 smallNews.forEach((item) => {
-  const smallNewsElement = smallNewsTemplate.content.cloneNode(true);
-
   const date = new Date(item.date).toLocaleDateString('ru-ru', {
     day: 'numeric',
     month: 'long',
   });
 
-  smallNewsElement.querySelector('.small-article__title').textContent =
-    item.title;
-  smallNewsElement.querySelector('.small-article__date').textContent = date;
+  const smallTemplate = document.createElement('template');
 
-  smallNewsElement.querySelector('.small-article__source').textContent =
-    sources.find((src) => src.id === item.source_id).name;
+  smallTemplate.innerHTML = `
+    <article class="small-article">
+        <h2 class="small-article__title">
+            ${item.title}
+        </h2>
+        <p class="small-article__caption">
+            <span class="article-date small-article__date">${date}</span>
+            <span class="article-source small-article__source">
+                ${sources.find((src) => src.id === item.source_id).name}
+            </span>
+        </p>
+    </article>`;
 
-  smallNewsContainer.appendChild(smallNewsElement);
+  smallNewsContainer.appendChild(smallTemplate.content);
 });
