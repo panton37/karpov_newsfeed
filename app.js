@@ -331,7 +331,7 @@ const escapeString = (string) => {
     '>': '&gt',
   };
   return string.replace(/[&<>]/g, (tag) => {
-    return symbol[tag] || tag;
+    return symbols[tag] || tag;
   });
 };
 // ----------------------------------
