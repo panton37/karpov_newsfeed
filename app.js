@@ -323,6 +323,19 @@ mainNews.forEach((item) => {
   mainNewsContainer.appendChild(createMainNewsItem(item));
 });
 
+// ----- Экранирование символов -----
+const escapeString = (string) => {
+  const symbols = {
+    '&': '&amp;',
+    '<': '&lt;',
+    '>': '&gt',
+  };
+  return string.replace(/[&<>]/g, (tag) => {
+    return symbol[tag] || tag;
+  });
+};
+// ----------------------------------
+
 smallNews.forEach((item) => {
   const date = new Date(item.date).toLocaleDateString('ru-ru', {
     day: 'numeric',
@@ -334,12 +347,16 @@ smallNews.forEach((item) => {
   smallTemplate.innerHTML = `
     <article class="small-article">
         <h2 class="small-article__title">
-            ${item.title}
+            ${escapeString(item.title)}
         </h2>
         <p class="small-article__caption">
-            <span class="article-date small-article__date">${date}</span>
+            <span class="article-date small-article__date">${escapeString(
+              date
+            )}</span>
             <span class="article-source small-article__source">
-                ${sources.find((src) => src.id === item.source_id).name}
+                ${escapeString(
+                  sources.find((src) => src.id === item.source_id).name
+                )}
             </span>
         </p>
     </article>`;
