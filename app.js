@@ -279,22 +279,73 @@ const smallNewsTemplate = document.getElementById('small-news-item');
 const mainNewsContainer = document.querySelector('.articles__big-column');
 const smallNewsContainer = document.querySelector('.articles__small-column');
 
+{
+  /* <article class="main-article">
+        <div class="main-article__image-container">
+          <img
+            class="main-article__image"
+            src="./images/image.jpg"
+            alt="Фото новости"
+          />
+        </div>
+        <div class="main-article__content">
+          <span class="article-category main-article__category"
+            >Технологии</span
+          >
+          <h2 class="main-article__title">
+            Вещи, которые нужно знать перед стажировкой в IT сфере
+          </h2>
+          <p class="main-article__text">
+            Уличные музыканты продолжают радовать фанатов стрит арта. Для этого
+            они исполняют привычные мелодии в новом формате!
+          </p>
+          <span class="article-source main-article__source">Источник</span>
+        </div>
+      </article> */
+}
+
+const createMainNewsItem = (item) => {
+  const catName = categories.find((cat) => cat.id === item.category_id).name;
+  const srcName = sources.find((src) => src.id === item.source_id).name;
+
+  const article = document.createElement('article');
+  const imageContainer = document.createElement('div');
+  const image = document.createElement('img');
+  const content = document.createElement('div');
+  const category = document.createElement('span');
+  const title = document.createElement('h2');
+  const description = document.createElement('p');
+  const source = document.createElement('span');
+
+  imageContainer.appendChild(image);
+  article.appendChild(imageContainer);
+  content.appendChild(category);
+  content.appendChild(title);
+  content.appendChild(description);
+  content.appendChild(source);
+  article.appendChild(content);
+
+  article.classList.add('main-article');
+  imageContainer.classList.add('main-article__image-container');
+  image.classList.add('main-article__image');
+  content.classList.add('main-article__content');
+  category.classList.add('article-category', 'main-article__category');
+  title.classList.add('main-article__title');
+  description.classList.add('main-article__text');
+  source.classList.add('article-source', 'main-article__source');
+
+  image.src = item.image;
+  title.textContent = item.title;
+  description.textContent = item.description;
+
+  source.textContent = srcName;
+  category.textContent = catName;
+
+  return article;
+};
+
 mainNews.forEach((item) => {
-  const mainNewsElement = mainNewsTemplate.content.cloneNode(true);
-
-  mainNewsElement.querySelector('.main-article__image').src = item.image;
-  mainNewsElement.querySelector('.main-article__title').textContent =
-    item.title;
-  mainNewsElement.querySelector('.main-article__text').textContent =
-    item.description;
-
-  mainNewsElement.querySelector('.main-article__source').textContent =
-    sources.find((src) => src.id === item.source_id).name;
-
-  mainNewsElement.querySelector('.main-article__category').textContent =
-    categories.find((cat) => cat.id === item.category_id).name;
-
-  mainNewsContainer.appendChild(mainNewsElement);
+  mainNewsContainer.appendChild(createMainNewsItem(item));
 });
 
 smallNews.forEach((item) => {
