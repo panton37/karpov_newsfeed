@@ -1,2 +1,3 @@
-# karpov_newsfeed
- 
+# newsfeed
+
+Учебный проект новостной ленты
